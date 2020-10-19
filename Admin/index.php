@@ -73,11 +73,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
              </tr>
              <tr>
                <td><h3>Total Students: </h3> <br> </td>
-               <td> <h3><?php echo "120"; ?></h3> <br></td>
+               <td> <h3><?php echo "100"; ?></h3> <br></td>
              </tr>
              <tr>
                <td><h3>Active Students: </h3><br></td>
-               <td> <h3><?php echo "120"; ?></h3> <br></td>
+               <td> <h3><?php echo "100"; ?></h3> <br></td>
              </tr>
            </table>
          </td>
