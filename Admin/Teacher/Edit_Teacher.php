@@ -116,66 +116,103 @@ require "../../include/conn.php";
   </table>
 </div>
 
+<form action="../../Admin/Teacher/Edit_Teacher.php" method="post">
 <div class="searchbox" style="margin-left:42%; margin-top:50px;">
-  <input type="text" name="std_Search" value="" placeholder="Search..">
-  <span> <input class="submit" type="submit" name="" value="Search"> </span>
+  <input type="text" name="std_Search" value="" placeholder="Search by ID">
+  <span>
+    <input class="submit" type="submit" name="search_by_id" value="Search">
+  </span>
+  <?php if (isset($_GET['msg'])) { ?>
+    <p class="error" style="color:red"> <br> <?php echo $_GET['msg'];?> </p>
+  <?php } ?>
 </div>
+</form>
+
+<?php
+  if (isset($_POST['search_by_id'])) {
+    $id = $_POST['std_Search'];
+    $query = "select * from teacher where id='$id' ";
+    $query_run = mysqli_query($conn, $query);
+ ?>
 
 <div class="edit_data">
+  <form action="../../include/edit_teacher_info.php" method="post">
+
   <table style="margin-left:40%; margin-top:20px;">
+
+    <?php
+    if (mysqli_num_rows($query_run)>0) {
+      while ($row = mysqli_fetch_array($query_run)) {
+     ?>
+     <tr>
+       <td style="padding:10px;" >ID: </td>
+       <td style="padding:10px;">  <input type="text" name="id" value="<?php echo $row['id']; ?>" readonly> </td>
+   </tr>
+   <tr>
+     <td style="padding:10px;" >Username: </td>
+     <td style="padding:10px;">  <input type="text" name="username" value="<?php echo $row['username']; ?>" readonly> </td>
+ </tr>
     <tr>
       <td style="padding:10px;" >Full name: </td>
-      <td style="padding:10px;">  <input type="text" name="" value=""> </td>
+      <td style="padding:10px;">  <input type="text" name="full_name" value="<?php echo $row['name']; ?>"> </td>
   </tr>
   <tr>
     <td style="padding:10px;">Birthdate: </td>
-    <td style="padding:10px; width:175px;">  <input type="date" name="" value=""> </td>
+    <td style="padding:10px; width:175px;">  <input type="date" name="date" value="<?php echo $row['dob']; ?>"> </td>
   </tr>
   <tr>
     <td style="padding:10px;">Contact No. : </td>
-    <td style="padding:10px;">  <input type="text" name="" value=""> </td>
+    <td style="padding:10px;">  <input type="text" name="contact" value="<?php echo $row['contact']; ?>"> </td>
   </tr>
   <tr>
     <td style="padding:10px;">Email Addess : </td>
-    <td style="padding:10px;">  <input type="text" name="" value=""> </td>
+    <td style="padding:10px;">  <input type="text" name="email" value="<?php echo $row['email']; ?>"> </td>
   </tr>
   <tr>
     <td style="padding:10px;">Gender: </td>
     <td style="padding:10px;">
       <select name="gender_type"  style="width:175px;" required >
                   <option value="" disabled  selected>     Select Gender     </option>
-                  <option value="HYEF">Male</option>
-                  <option value="YFEF">Female</option>
+                  <option<?php if ($row['gender'] == "Male"): ?> selected="selected"<?php endif; ?>>Male</option>
+                  <option<?php if ($row['gender'] == "Female"): ?> selected="selected"<?php endif; ?>>Female</option>
                  </td>
   </tr>
   <tr>
     <td style="padding:10px;">Address: </td>
-    <td style="padding:10px;">  <input type="text" name="" value=""> </td>
+    <td style="padding:10px;">  <input type="text" name="address" value="<?php echo $row['address']; ?>"> </td>
   </tr>
   <tr>
     <td style="padding:10px;">Department:</td>
-    <td style="padding:10px;">  <select name="gender_type"  style="width:175px;" required >
+    <td style="padding:10px;">
+      <select name="dept_type"  style="width:175px;" required >
                 <option value="" disabled  selected>     Select Dept.     </option>
-                <option value="Science">Science</option>
-                <option value="Commerce">Commerce</option></td>
-  </tr>
-  <tr>
-    <td style="padding:10px;">Username: </td>
-    <td style="padding:10px;"> <input type="text" name="" value=""> </td>
-  </tr>
-  <tr>
-    <td style="padding:10px;">Password: </td>
-    <td style="padding:10px;">  <input type="Password" name="" value=""> </td>
+                <option<?php if ($row['dept'] == "Science"): ?> selected="selected"<?php endif; ?>>Science</option>
+                <option<?php if ($row['dept'] == "Commerce"): ?> selected="selected"<?php endif; ?>>Commerce</option>
+    </td>
   </tr>
   <tr>
     <td align=center colspan="2" style="padding:10px;" >
-      <input class="submit" type="submit" name="submit_btn" value="Update">
+      <input class="submit" type="submit" name="edit_info_btn" value="Update">
     </td>
   </tr>
   </table>
+  </form>
+  <?php
+    }
+    }else {
+      ?>
+        <tr>
+          <td colspan="6">No Record Found</td>
+        </tr>
+      <?php
+    }
+   ?>
+
 </div>
 
-
+<?php
+}
+ ?>
 
 </body>
 </html>

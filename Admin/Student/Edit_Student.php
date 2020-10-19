@@ -116,7 +116,7 @@ require "../../include/conn.php";
 
   </table>
 </div>
-<form action="" method="post">
+<form action="../../Admin/Student/Edit_Student.php" method="post">
   <div class="searchbox" style="margin-left:42%; margin-top:50px;">
     <input type="text" name="get_id" value="" placeholder="Search by id">
     <span>
@@ -139,9 +139,8 @@ require "../../include/conn.php";
  ?>
 
 <div class="edit_data">
+
   <form action="../../include/edit_student_info.php" method="post">
-
-
   <table style="margin-left:40%; margin-top:20px;">
 
     <?php
@@ -196,7 +195,6 @@ require "../../include/conn.php";
                 <option<?php if ($row['c_year'] == "First"): ?> selected="selected"<?php endif; ?>>First</option>
                 <option<?php if ($row['c_year'] == "Second"): ?> selected="selected"<?php endif; ?>>Second</option>
   </tr>
-
   <tr>
     <td align=center colspan="2" style="padding:10px;" >
       <input class="submit" type="submit" name="edit_info_btn" value="Update">
