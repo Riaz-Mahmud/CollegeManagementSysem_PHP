@@ -41,7 +41,7 @@ if (isset($_POST['edit_info_btn'])) {
             exit();
           }
         }else {
-          header("Location: ../Admin/Student/Edit_Student.php?msg=Something Wrong!".$username);
+          header("Location: ../Admin/Student/Edit_Student.php?msg=Something Wrong!");
           exit();
         }
         $conn->close();
