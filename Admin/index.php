@@ -90,11 +90,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
              </tr>
              <tr>
                <td> <h3>Total Teacher: </h3> <br> </td>
-               <td> <h3><?php echo "120"; ?></h2> <br></td>
+               <td> <h3><?php echo "100"; ?></h2> <br></td>
              </tr>
              <tr>
                <td> <h3>Active Teacher: </h3> <br></td>
-               <td> <h3><?php echo "120"; ?></h3> <br></td>
+               <td> <h3><?php echo "100"; ?></h3> <br></td>
              </tr>
            </table>
          </td>
@@ -108,11 +108,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
              </tr>
              <tr>
                <td> <h3>Total Course: </h3> <br></td>
-               <td> <h3><?php echo "120"; ?></h3> <br></td>
+               <td> <h3><?php echo "100"; ?></h3> <br></td>
              </tr>
              <tr>
                <td> <h3>Active Course: </h3> <br></td>
-               <td> <h3><?php echo "120"; ?></h3> <br></td>
+               <td> <h3><?php echo "100"; ?></h3> <br></td>
              </tr>
            </table>
          </td>
