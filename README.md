@@ -1,3 +1,3 @@
 # CollegeManagementSysem_PHP
 
-College Management System using PHP, HTML & CSS
+College Managemetn System using PHP, HTML & CSS
