@@ -1,6 +1,6 @@
 # CollegeManagementSysem_PHP
 
-College Managemetn System using PHP, HTML & CSS
+College Management System using PHP, HTML & CSS
 _______________________________________________
 
 There are 3 types of users.
