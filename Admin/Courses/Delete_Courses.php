@@ -2,13 +2,27 @@
 session_start();
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
-
+require "../../include/conn.php";
  ?>
 
 <!DOCTYPE html>
 
 <html lang="en" dir="ltr">
   <head>
+
+    <script type="text/javascript">
+
+      function confirmation(){
+        var answer = confirm('Are you sure you want to delete?');
+        if(answer){
+          form1.submit();
+        }
+        else{
+          alert("Cancelled the delete!")
+        }
+      }
+    </script>
+
     <meta charset="utf-8">
     <title>Admin</title>
     <link rel="stylesheet" href="Delete_Courses.css">
@@ -74,53 +88,100 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
 
 <div class="main" style="margin-top:40px; margin-left:40%;">
   <table style="border:3px solid black;border-collapse:collapse;">
-  <tr>
-  <td  colspan="3" align=center> <h1> Current Course list </h1></td>
-  </tr>
-  <tr>
-    <td style="border:1px solid green; padding: 10px;"><h3>Course Name</h3></td>
-    <td style="border:1px solid green;padding: 10px;"><h3>College Year</h3> </td>
-    <td style="border:1px solid green;padding: 10px;"><h3>Course Code</h3></td>
-  </tr>
-  <tr>
-    <td style="border:1px solid green;padding: 10px;">physics 1st  paper</td>
-    <td style="border:1px solid green;padding: 10px;">1st</td>
-    <td style="border:1px solid green;padding: 10px;">003003</td>
+    <tr>
+      <td  colspan="3" align=center> <h1> Current Course list </h1></td>
     </tr>
     <tr>
-      <td style="border:1px solid green;padding: 10px;">physics 1st  paper</td>
-      <td style="border:1px solid green;padding: 10px;">1st</td>
-      <td style="border:1px solid green;padding: 10px;">003003</td>
-      </tr>
-      <tr>
-        <td style="border:1px solid green;padding: 10px;">physics 1st  paper</td>
-        <td style="border:1px solid green;padding: 10px;">1st</td>
-        <td style="border:1px solid green;padding: 10px;">003003</td>
-        </tr>
-  </table>
-  </div>
-  <div class="searchbox" style="margin-left:42%; margin-top:50px;">
-    <input type="text" name="std_Search" value="" placeholder="Search..">
-    <span> <input class="submit" type="submit" name="" value="Search"> </span>
-  </div>
-  <div class="main" style="margin-top:40px; margin-left:40%;">
-    <table style="border:3px solid black;border-collapse:collapse;">
-    <tr>
+      <td style="border:1px solid green;padding: 10px;"><h3>Course ID</h3></td>
       <td style="border:1px solid green; padding: 10px;"><h3>Course Name</h3></td>
       <td style="border:1px solid green;padding: 10px;"><h3>College Year</h3> </td>
-      <td style="border:1px solid green;padding: 10px;"><h3>Course Code</h3></td>
     </tr>
-    <tr>
-      <td style="border:1px solid green;padding: 10px;">physics 1st  paper</td>
-      <td style="border:1px solid green;padding: 10px;">1st</td>
-      <td style="border:1px solid green;padding: 10px;">003003</td>
-      </tr>
-    </table>
-    </div>
 
-    <div class="delete" style="margin-left:50%; margin-top:50px;">
-    <input class="submit" type="submit" name="" value="Delete? " onclick="document.getElementById('dlt').style.display='block'">
-    </div>
+    <?php
+      $sql = "select * from course ORDER BY id DESC Limit 5;";
+      $query = mysqli_query($conn,$sql);
+      $nums = mysqli_num_rows($query);
+
+    while ($res = mysqli_fetch_array($query)) {
+      ?>
+
+        <tr>
+          <td style="border:1px solid green;padding: 10px;"><?php echo $res['id'] ; ?></td>
+          <td style="border:1px solid green;padding: 10px;"><?php echo $res['cname'] ; ?></td>
+          <td style="border:1px solid green;padding: 10px;"><?php echo $res['year'] ; ?></td>
+        </tr>
+
+      <?php
+      }
+     ?>
+  </table>
+</div>
+
+
+<form action="../../Admin/Courses/Delete_Courses.php" method="post">
+  <div class="searchbox" style="margin-left:42%; margin-top:50px;">
+    <input type="text" name="course_Search" value="" placeholder="Search.." required>
+    <span> <input class="submit" type="submit" name="search_by_id" value="Search"> </span>
+    <?php if (isset($_GET['msg'])) { ?>
+      <p class="error" style="color:red"> <br> <?php echo $_GET['msg'];?> </p>
+    <?php } ?>
+  </div>
+</form>
+
+<?php
+  if (isset($_POST['search_by_id'])) {
+    $id = $_POST['course_Search'];
+    $query = "select * from course where id='$id' ";
+    $query_run = mysqli_query($conn, $query);
+ ?>
+
+  <div class="main" style="margin-top:40px; margin-left:40%;">
+    <form  name="form1" method="post" action="../../include/course_delete.php">
+      <table style="border:3px solid black;border-collapse:collapse;">
+        <tr>
+          <td style="border:1px solid green; padding: 10px;"><h3>Course ID</h3></td>
+          <td style="border:1px solid green;padding: 10px;"><h3>College Name</h3> </td>
+          <td style="border:1px solid green;padding: 10px;"><h3>Course Year</h3></td>
+        </tr>
+
+        <?php
+        if (mysqli_num_rows($query_run)>0) {
+          while ($row = mysqli_fetch_array($query_run)) {
+         ?>
+
+          <tr>
+
+            <td style="border:1px solid green;padding: 10px;">
+              <input type="number" name="id" value="<?php echo $row['id']; ?>" readonly required>
+            </td>
+            <td style="border:1px solid green;padding: 10px;"><?php echo $row['cname']; ?></td>
+            <td style="border:1px solid green;padding: 10px;"><?php echo $row['year']; ?></td>
+          </tr>
+
+        </table>
+        <table>
+          <tr>
+            <td></td>
+            <td colspan="6" style="padding: 30px">
+              <input class="submit" type="submit" name="" value="Delete? " onclick="confirmation();">
+            </td>
+          </tr>
+        </table>
+        <?php
+          }
+          }else {
+            ?>
+              <tr>
+                <td></td>
+                <td colspan="6" style="padding: 10px;">No Record Found</td>
+              </tr>
+            <?php
+          }
+        }
+         ?>
+      </form>
+
+  </div>
 
 
 
