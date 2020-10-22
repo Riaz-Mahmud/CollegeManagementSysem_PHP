@@ -1,15 +1,20 @@
 <?php
 session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
+require "../../include/conn.php";
+//test code
+//
+///
+//
 
- ?>
+?>
 
 <!DOCTYPE html>
 
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Admin</title>
+    <title>Payment - Admin</title>
     <link rel="stylesheet" href="Add_Payment.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

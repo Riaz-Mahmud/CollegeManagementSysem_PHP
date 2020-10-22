@@ -13,12 +13,13 @@ require "../../include/conn.php";
     <script type="text/javascript">
 
       function confirmation(){
-        var answer = confirm('Are you sure you want to delete?');
-        if(answer){
+        var data = confirm('Are you sure you want to delete?');
+        if(data == true){
           form1.submit();
+          return true;
         }
         else{
-          alert("Cancelled the delete!")
+          return false;
         }
       }
     </script>
@@ -163,7 +164,7 @@ require "../../include/conn.php";
           <tr>
             <td></td>
             <td colspan="6" style="padding: 30px">
-              <input class="submit" type="submit" name="" value="Delete? " onclick="confirmation();">
+              <input class="submit" type="submit" name="" value="Delete? " onclick="return confirmation()">
             </td>
           </tr>
         </table>
