@@ -1,7 +1,6 @@
 <?php
 session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
-require "../../include/conn.php";
 //test code
 //
 ///
