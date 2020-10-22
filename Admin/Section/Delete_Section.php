@@ -9,8 +9,9 @@ require "../../include/conn.php";
 
 <html lang="en" dir="ltr">
   <head>
+
     <meta charset="utf-8">
-    <title>Admin</title>
+    <title>Delete Section - Admin</title>
     <link rel="stylesheet" href="Delete_Section.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,81 +67,86 @@ require "../../include/conn.php";
  <div class="topnav">
    <a href="Add_Section.php">ADD NEW SECTION</a>
    <a href="Edit_Section.php">EDIT SECTION</a>
-   <a href="Active_Section.php" class="active">DELETE SECTIONS</a>
+   <a href="Delete_Section.php" class="active">DELETE SECTIONS</a>
 
 </div>
 
-    </div>
+</div>
 
     <div class="main" style="margin-top:40px; margin-left:40%;">
       <table style="border:3px solid black;border-collapse:collapse;">
+        <?php
+        if (isset($_GET['msg'])) {
+          ?>
+          <h3 class="error" style="color:red;margin-left:20%;"> <br> <?php echo $_GET['msg'];?> </h3>
+        <?php
+          }
+        ?>
       <tr>
-      <td  colspan="3" align=center> <h1> Current Section list </h1></td>
+        <td  colspan="5" align=center> <h1> Current Section list </h1></td>
       </tr>
       <tr>
+        <td style="border:1px solid green; padding: 10px;"><h3>Serial</h3></td>
         <td style="border:1px solid green; padding: 10px;"><h3>Section Name</h3></td>
-        <td style="border:1px solid green;padding: 10px;"><h3>Year</h3> </td>
-        <td style="border:1px solid green;padding: 10px;"><h3>Students</h3></td>
+        <td style="border:1px solid green;padding: 10px;"><h3>College Year</h3> </td>
+        <td style="border:1px solid green;padding: 10px;"><h3>Section Limit</h3></td>
+        <td style="border:1px solid green;padding: 10px;"><h3>Delete</h3></td>
       </tr>
+
+      <?php
+
+        if (!empty($_GET['uid'])) {
+          $id = $_GET['uid'];
+
+          $qry_delete_check = "SELECT * from section where serial='$id'";
+          $result = mysqli_query($conn,$qry_delete_check);
+              if (mysqli_num_rows($result)>0) {
+                $sql_delete = "DELETE FROM section WHERE serial='$id'";
+                if ($conn->query($sql_delete) === TRUE) {
+                  header("Location: Delete_Section.php?msg=Section deleted successfully");
+                }else {
+                  header("Location: Delete_Section.php?msg=Something Wrong!");
+                }
+              }else {
+                header("Location: Delete_Section.php?msg=Something Wrong!!");
+                exit();
+              }
+              $conn->close();
+        }
+
+        $sql = "select * from section ORDER BY serial;";
+        $query = mysqli_query($conn,$sql);
+        $nums = mysqli_num_rows($query);
+        $i = 0;
+        while ($res = mysqli_fetch_array($query)) {
+        ?>
       <tr>
-        <td style="border:1px solid green;padding: 10px;">A</td>
-        <td style="border:1px solid green;padding: 10px;">1st</td>
-        <td style="border:1px solid green;padding: 10px;">40</td>
-        </tr>
-        <tr>
-          <td style="border:1px solid green;padding: 10px;">B</td>
-          <td style="border:1px solid green;padding: 10px;">1st</td>
-          <td style="border:1px solid green;padding: 10px;">40</td>
-          </tr>
-          <tr>
-            <td style="border:1px solid green;padding: 10px;">C</td>
-            <td style="border:1px solid green;padding: 10px;">1st</td>
-            <td style="border:1px solid green;padding: 10px;">40</td>
-            </tr>
+        <td style="border:1px solid green;padding: 10px;"><?php echo ++$i; ?></td>
+        <td style="border:1px solid green;padding: 10px;"><?php echo $res['section_name'] ; ?></td>
+        <td style="border:1px solid green;padding: 10px;"><?php echo $res['year'] ; ?></td>
+        <td style="border:1px solid green;padding: 10px;"><?php echo $res['limt'] ; ?></td>
+        <td style="border:1px solid green;padding: 10px; background: red">
+            <a href="Delete_Section.php?uid=<?php echo $res['serial'];?>" onclick="return deleteUser()">Delete</a>
+        </td>
+
+      </tr>
+      <?php
+      }
+     ?>
       </table>
       </div>
-      <div class="opt" style="margin-left:40%; margin-top:40px;" >
-        <select name="Year"  style="width:175px;" required >
-                    <option value="" disabled  selected>     Select Year     </option>
-                    <option value="HYEF">First</option>
-                    <option value="YFEF">Second</option>
-      </div>
-        <div class="searchbox" style="margin-left:42%; margin-top:50px; ">
-        <input style="width:165px;" type="text" name="std_Search" value="" placeholder="Section name..">
-        <br>
-        <input style="margin-left:120px;margin-top:20px"; class="submit" type="submit" name="" value="Search">
-      </div>
-      <div class="main" style="margin-top:40px; margin-left:40%;">
-        <table style="border:3px solid black;border-collapse:collapse;">
-        <tr>
-          <td style="border:1px solid green; padding: 10px;"><h3>Section Name</h3></td>
-          <td style="border:1px solid green;padding: 10px;"><h3>Year</h3> </td>
-          <td style="border:1px solid green;padding: 10px;"><h3>Students</h3></td>
-        </tr>
-        <tr>
-          <td style="border:1px solid green;padding: 10px;">A</td>
-          <td style="border:1px solid green;padding: 10px;">1st</td>
-          <td style="border:1px solid green;padding: 10px;">36</td>
-          </tr>
-        </table>
-        </div>
 
+    <script>
 
-      <div class="delete" style="margin-left:45%; margin-top:50px;">
-      <input class="submit" type="submit" name="" value="Delete? " onclick="document.getElementById('dlt').style.display='block'">
-      </div>
-      <div id="dlt" class="modal">
-        <span onclick="document.getElementById('dlt').style.display='none'" class="close" title="Close Modal">&times;</span>
-        <form class="modal-content" action="/action_page.php">
-          <div class="container">
-            <h1>Delete Student?</h1>
-              <div class="clearfix">
-                <button type="button" class="cancelbtn">Cancel</button>
-                <button type="button" class="deletebtn">Delete</button>
-              </div>
-            </div>
-          </form>
-        </div>
+      function deleteUser(){
+        var data = confirm("Are you sure you want to delete?");
+        if(data == true){
+          return true;
+        }else {
+          return false;
+        }
+      }
+    </script>
 
 </body>
 </html>
