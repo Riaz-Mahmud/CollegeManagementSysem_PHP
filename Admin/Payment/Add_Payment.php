@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
-
+require "../../include/conn.php";
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Payment - Admin</title>
+    <title>Add Payment - Admin</title>
     <link rel="stylesheet" href="Add_Payment.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,14 +64,27 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
 <div class="navbar" style="margin-left:auto; margin-top:0%;">
  <div class="topnav">
    <a href="Add_Payment.php" class="active" >ADD NEW PAYMENT</a>
-   <a href="List_Payment.php">LIST OF THE MONTH</a>
+   <a href="List_Payment.php">ALL PAYMENT LIST</a>
    <a href="Update_Payment.php">UPDATE LIST</a>
 </div>
 </div>
 
 <div class="title">
-<h1 style="margin-left:42%; margin-top: 5%;"> Make Payment </h1>
+<h1 style="margin-left:42%; margin-top: 2%;"> Make Payment </h1>
 </div>
+
+<table align=center style="margin-left:43%; margin-top:20px;">
+  <tr>
+    <td style="padding:10px;">
+      <input type="text" name="" value="" placeholder="Search by id">
+    </td>
+  </tr>
+  <tr>
+    <td align=center colspan="1" style="padding:5px;" >
+      <input class="submit" type="submit" name="submit_btn" value="SEARCH">
+    </td>
+  </tr>
+</table>
 <table style="margin-left:40%; margin-top:20px;">
   <tr>
     <td style="padding:10px;" >Student name: </td>
@@ -137,14 +150,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
 </tr>
 <tr>
   <td style="padding:10px;">Amount: </td>
-  <td style="padding:10px;"> <input type="text" name="" value=""> </td>
-</tr>
-<tr>
-  <td style="padding:10px;">Date: </td>
-  <td style="padding:10px; width:175px;">  <input type="date" name="" value=""> </td>
-</tr>
-<tr>
-  <td style="padding:10px;">Username: </td>
   <td style="padding:10px;"> <input type="text" name="" value=""> </td>
 </tr>
 <tr>
