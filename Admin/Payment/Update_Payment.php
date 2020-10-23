@@ -1,9 +1,7 @@
-
 <?php
 session_start();
-
 if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
-
+require "../../include/conn.php";
  ?>
 
 <!DOCTYPE html>
@@ -66,7 +64,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
 <div class="navbar" style="margin-left:auto; margin-top:0%;">
  <div class="topnav">
    <a href="Add_Payment.php">ADD NEW PAYMENT</a>
-   <a href="List_Payment.php">LIST OF THE MONTH</a>
+   <a href="List_Payment.php">ALL PAYMENT LIST</a>
    <a href="Update_Payment.php" class="active" >UPDATE LIST</a>
 </div>
 </div>

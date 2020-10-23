@@ -1,8 +1,7 @@
 <?php
 session_start();
-
 if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
-
+require "../../include/conn.php";
  ?>
 
 <!DOCTYPE html>
@@ -65,7 +64,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
 <div class="navbar" style="margin-left:auto; margin-top:0%;">
  <div class="topnav">
    <a href="Add_Payment.php">ADD NEW PAYMENT</a>
-   <a href="List_Payment.php" class="active" >LIST OF THE MONTH</a>
+   <a href="List_Payment.php" class="active" >ALL PAYMENT LIST</a>
    <a href="Update_Payment.php">UPDATE LIST</a>
 </div>
 </div>
@@ -117,25 +116,61 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_type'])) {
   <tr>
 </table>
 <div class="main">
-<table  style="border:3px solid black;border-collapse:collapse; margin-left:40%; margin-top:20px">
+<table  style="border:3px solid black;border-collapse:collapse; margin-left: 30%;margin-top:20px">
   <tr>
-    <td style="border:1px solid green; padding: 10px;">Name:</td>
-    <td style="border:1px solid green;padding: 10px;">Contact No. </td>
-    <td style="border:1px solid green;padding: 10px;">Username  </td>
-    <td style="border:1px solid green;padding: 10px;">Amount  </td>
-    <td style="border:1px solid green;padding: 10px;">Date  </td>
+    <td style="border:1px solid green; padding: 10px;">Serial</td>
+    <td style="border:1px solid green;padding: 10px;">Username</td>
+    <td style="border:1px solid green; padding: 10px;">Name</td>
+    <td style="border:1px solid green;padding: 10px;">Contact No</td>
+    <td style="border:1px solid green;padding: 10px;">Amount</td>
+    <td style="border:1px solid green;padding: 10px;">Date</td>
+    <td style="border:1px solid green;padding: 10px;">Type</td>
+    <td style="border:1px solid green;padding: 10px;">Delete</td>
 
   </tr>
-  <tr>
-    <td style="border:1px solid green; padding: 10px;">Tusher</td>
-    <td style="border:1px solid green;padding: 10px;">01679092831 </td>
-    <td style="border:1px solid green;padding: 10px;">tusher@121 </td>
-    <td style="border:1px solid green;padding: 10px;">15000  </td>
-    <td style="border:1px solid green;padding: 10px;">1/1/2020  </td>
+  <?php
 
+    if (!empty($_GET['uid'])) {
+      $id = $_GET['uid'];
+    }
+
+    $sql = "select * from  payment ORDER BY id;";
+    $query = mysqli_query($conn,$sql);
+    $nums = mysqli_num_rows($query);
+    $i = 0;
+    while ($res = mysqli_fetch_array($query)) {
+   ?>
+
+  <tr>
+    <td style="border:1px solid green; padding: 10px;"><?php echo ++$i; ?></td>
+    <td style="border:1px solid green; padding: 10px;"><?php echo $res['name'] ; ?></td>
+    <td style="border:1px solid green;padding: 10px;"><?php echo $res['username'] ; ?> </td>
+    <td style="border:1px solid green; padding: 10px;"><?php echo $res['contact'] ; ?></td>
+    <td style="border:1px solid green;padding: 10px;"><?php echo $res['amount'] ; ?></td>
+    <td style="border:1px solid green;padding: 10px;"><?php echo $res['month'] ; ?>  </td>
+    <td style="border:1px solid green;padding: 10px;"><?php echo $res['type'] ; ?>  </td>
+    <td style="border:1px solid green;padding: 10px;">
+      <a href="List_Payment.php?uid=<?php echo $res['id'];?>" onclick="return deleteUser()">Delete</a>
+    </td>
   </tr>
+  <?php
+  }
+ ?>
 </table>
 </div>
+
+<script>
+
+  function deleteUser(){
+    var data = confirm("Are you sure you want to delete?");
+    if(data == true){
+      return true;
+    }else {
+      return false;
+    }
+  }
+</script>
+
 </body>
 </html>
 
